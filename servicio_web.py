@@ -1,22 +1,18 @@
 # pra los codigos visitar https://http.dog/
 from flask import Flask,request,jsonify
 
-
 alumnos = []
 campos = ("name", "courses")
 app = Flask(__name__)
 app.config['JSON_SORT_KEYS'] = False
 
-
 @app.route("/")
 def test():
 	return jsonify({"mensaje":"Error, servicio en localhost:7001/student"}),404
 
-
 @app.route("/student", methods=['GET'])
 def mostrar_alumnos():
 	return jsonify({"students":alumnos}),200
-
 
 @app.route('/student/<int:dato_id>', methods=['GET'])
 def get_uno(dato_id):
@@ -24,7 +20,6 @@ def get_uno(dato_id):
 		return jsonify(alumnos[dato_id]),200
 	except IndexError:
 		return jsonify({"Mensaje":"Error, no se encuentra ese dato"}),404
-
 
 @app.route('/student', methods=['POST'])
 def post_alumno():
@@ -39,8 +34,6 @@ def post_alumno():
 	nuevo = {"id":len(alumnos),"nombre":body["name"],"cursos":body["courses"]}
 	alumnos.append(nuevo)
 	return jsonify({"id":nuevo["id"]}),201
-
-
 
 @app.route('/student/<int:dato_id>', methods=['PUT'])
 def put_alumno(dato_id):
@@ -65,7 +58,6 @@ def put_alumno(dato_id):
 	except IndexError:
 		return jsonify({"Mensaje":"No existe ese id"}),404
 
-
 @app.route("/student/<int:dato_id>", methods=["DELETE"])
 def delete_alumno(dato_id):
 	try:
@@ -77,7 +69,5 @@ def delete_alumno(dato_id):
 		return jsonify({"Mensaje": "Borrado"}), 204
 	except IndexError:
 		return jsonify({"Mensaje": "Error, no se encontro"}), 202
-
-
 
 app.run("localhost",port="7001")
